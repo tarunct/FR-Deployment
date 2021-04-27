@@ -1,0 +1,377 @@
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+05:42:10 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+05:42:10 *** Listening on retrain-model...
+05:42:10 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+05:42:10 *** Listening on onboard-request...
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+05:51:50 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+05:51:50 *** Listening on onboard-request...
+05:51:50 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+05:51:50 *** Listening on retrain-model...
+05:51:50 Cleaning registries for queue: onboard-request
+05:51:50 Cleaning registries for queue: retrain-model
+05:52:06 Warm shut down requested
+05:52:06 Warm shut down requested
+05:52:29 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+05:52:29 *** Listening on retrain-model...
+05:52:29 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+05:52:29 *** Listening on onboard-request...
+05:53:35 Warm shut down requested
+05:53:35 Warm shut down requested
+05:53:50 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+05:53:50 *** Listening on retrain-model...
+05:53:50 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+05:53:50 *** Listening on onboard-request...
+05:54:47 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (3f405975-53e8-422f-b1d1-5c680841a30c)
+2021-04-26 05:54:51.617117: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-04-26 05:54:51.669227: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-04-26 05:54:51.669430: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55942d03f250 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-04-26 05:54:51.669450: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-04-26 05:54:51.669513: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+05:55:10 onboard-request: Job OK (3f405975-53e8-422f-b1d1-5c680841a30c)
+05:55:10 Result is kept for 500 seconds
+05:55:11 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (63b569a1-7efd-401f-9007-fd7a45cf35d8)
+2021-04-26 05:55:13.667415: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-04-26 05:55:13.689582: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-04-26 05:55:13.689874: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55942e7660a0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-04-26 05:55:13.689902: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-04-26 05:55:13.689987: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+05:55:32 onboard-request: Job OK (63b569a1-7efd-401f-9007-fd7a45cf35d8)
+05:55:32 Result is kept for 500 seconds
+05:55:33 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (81c27d95-3349-403a-a312-9671bc5f575a)
+2021-04-26 05:55:35.546261: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-04-26 05:55:35.569631: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-04-26 05:55:35.569931: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55942e7663b0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-04-26 05:55:35.569984: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-04-26 05:55:35.570054: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+05:55:54 retrain-model: scheduler.retrain_model({'application': 'InstapagoTest', 'groupId': 'DEMO1', 'frModelId': 13}) (1a01c973-fb81-46e7-b14d-13d930d09c85)
+05:55:55 onboard-request: Job OK (81c27d95-3349-403a-a312-9671bc5f575a)
+05:55:55 Result is kept for 500 seconds
+05:56:58 retrain-model: Job OK (1a01c973-fb81-46e7-b14d-13d930d09c85)
+05:56:58 Result is kept for 500 seconds
+05:57:37 Warm shut down requested
+05:57:37 Warm shut down requested
+05:57:51 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+05:57:51 *** Listening on retrain-model...
+05:57:51 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+05:57:51 *** Listening on onboard-request...
+06:11:21 Cleaning registries for queue: retrain-model
+06:11:21 Cleaning registries for queue: onboard-request
+06:38:21 Cleaning registries for queue: onboard-request
+06:38:21 Cleaning registries for queue: retrain-model
+07:05:21 Cleaning registries for queue: onboard-request
+07:05:21 Cleaning registries for queue: retrain-model
+07:32:21 Cleaning registries for queue: retrain-model
+07:32:21 Cleaning registries for queue: onboard-request
+07:59:21 Cleaning registries for queue: onboard-request
+07:59:21 Cleaning registries for queue: retrain-model
+08:26:21 Cleaning registries for queue: retrain-model
+08:26:21 Cleaning registries for queue: onboard-request
+08:53:22 Cleaning registries for queue: onboard-request
+08:53:22 Cleaning registries for queue: retrain-model
+09:20:22 Cleaning registries for queue: retrain-model
+09:20:22 Cleaning registries for queue: onboard-request
+09:47:22 Cleaning registries for queue: retrain-model
+09:47:22 Cleaning registries for queue: onboard-request
+10:14:22 Cleaning registries for queue: onboard-request
+10:14:22 Cleaning registries for queue: retrain-model
+10:41:23 Cleaning registries for queue: onboard-request
+10:41:23 Cleaning registries for queue: retrain-model
+11:08:23 Cleaning registries for queue: retrain-model
+11:08:23 Cleaning registries for queue: onboard-request
+11:35:23 Cleaning registries for queue: retrain-model
+11:35:23 Cleaning registries for queue: onboard-request
+12:02:23 Cleaning registries for queue: retrain-model
+12:02:23 Cleaning registries for queue: onboard-request
+12:29:24 Cleaning registries for queue: retrain-model
+12:29:24 Cleaning registries for queue: onboard-request
+12:56:24 Cleaning registries for queue: retrain-model
+12:56:24 Cleaning registries for queue: onboard-request
+13:23:24 Cleaning registries for queue: onboard-request
+13:23:24 Cleaning registries for queue: retrain-model
+13:50:24 Cleaning registries for queue: retrain-model
+13:50:24 Cleaning registries for queue: onboard-request
+14:17:24 Cleaning registries for queue: retrain-model
+14:17:24 Cleaning registries for queue: onboard-request
+14:44:24 Cleaning registries for queue: onboard-request
+14:44:24 Cleaning registries for queue: retrain-model
+15:11:24 Cleaning registries for queue: onboard-request
+15:11:24 Cleaning registries for queue: retrain-model
+15:38:24 Cleaning registries for queue: retrain-model
+15:38:24 Cleaning registries for queue: onboard-request
+16:05:25 Cleaning registries for queue: retrain-model
+16:05:25 Cleaning registries for queue: onboard-request
+16:32:25 Cleaning registries for queue: retrain-model
+16:32:25 Cleaning registries for queue: onboard-request
+16:59:25 Cleaning registries for queue: retrain-model
+16:59:25 Cleaning registries for queue: onboard-request
+17:26:26 Cleaning registries for queue: retrain-model
+17:26:26 Cleaning registries for queue: onboard-request
+17:53:26 Cleaning registries for queue: retrain-model
+17:53:26 Cleaning registries for queue: onboard-request
+18:20:26 Cleaning registries for queue: retrain-model
+18:20:26 Cleaning registries for queue: onboard-request
+18:47:27 Cleaning registries for queue: onboard-request
+18:47:27 Cleaning registries for queue: retrain-model
+19:14:27 Cleaning registries for queue: retrain-model
+19:14:27 Cleaning registries for queue: onboard-request
+19:41:27 Cleaning registries for queue: retrain-model
+19:41:27 Cleaning registries for queue: onboard-request
+20:08:27 Cleaning registries for queue: retrain-model
+20:08:27 Cleaning registries for queue: onboard-request
+20:35:28 Cleaning registries for queue: retrain-model
+20:35:28 Cleaning registries for queue: onboard-request
+21:02:28 Cleaning registries for queue: retrain-model
+21:02:28 Cleaning registries for queue: onboard-request
+21:29:28 Cleaning registries for queue: retrain-model
+21:29:28 Cleaning registries for queue: onboard-request
+21:56:28 Cleaning registries for queue: retrain-model
+21:56:28 Cleaning registries for queue: onboard-request
+22:23:28 Cleaning registries for queue: retrain-model
+22:23:28 Cleaning registries for queue: onboard-request
+22:50:28 Cleaning registries for queue: retrain-model
+22:50:28 Cleaning registries for queue: onboard-request
+23:17:29 Cleaning registries for queue: onboard-request
+23:17:29 Cleaning registries for queue: retrain-model
+23:44:29 Cleaning registries for queue: retrain-model
+23:44:29 Cleaning registries for queue: onboard-request
+00:11:29 Cleaning registries for queue: retrain-model
+00:11:29 Cleaning registries for queue: onboard-request
+00:38:29 Cleaning registries for queue: retrain-model
+00:38:29 Cleaning registries for queue: onboard-request
+01:05:29 Cleaning registries for queue: retrain-model
+01:05:29 Cleaning registries for queue: onboard-request
+01:32:29 Cleaning registries for queue: onboard-request
+01:32:29 Cleaning registries for queue: retrain-model
+01:59:29 Cleaning registries for queue: retrain-model
+01:59:29 Cleaning registries for queue: onboard-request
+02:26:29 Cleaning registries for queue: retrain-model
+02:26:29 Cleaning registries for queue: onboard-request
+02:53:30 Cleaning registries for queue: retrain-model
+02:53:30 Cleaning registries for queue: onboard-request
+03:20:30 Cleaning registries for queue: retrain-model
+03:20:30 Cleaning registries for queue: onboard-request
+Traceback (most recent call last):
+  File "FR_RetrainingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_RetrainingWorker' already
+Traceback (most recent call last):
+  File "FR_OnboardingWorker.py", line 10, in <module>
+    worker.work()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 508, in work
+    self.register_birth()
+  File "/home/tarun/anaconda3/envs/Facerecognition/lib/python3.7/site-packages/rq/worker.py", line 273, in register_birth
+    raise ValueError(msg.format(self.name))
+ValueError: There exists an active worker named 'FR_OnboardingWorker' already
+03:47:30 Cleaning registries for queue: retrain-model
+03:47:30 Cleaning registries for queue: onboard-request
+04:14:30 Cleaning registries for queue: onboard-request
+04:14:30 Cleaning registries for queue: retrain-model
+04:41:30 Cleaning registries for queue: retrain-model
+04:41:30 Cleaning registries for queue: onboard-request
+05:08:30 Cleaning registries for queue: retrain-model
+05:08:30 Cleaning registries for queue: onboard-request
+05:35:30 Cleaning registries for queue: retrain-model
+05:35:30 Cleaning registries for queue: onboard-request
+06:02:30 Cleaning registries for queue: retrain-model
+06:02:30 Cleaning registries for queue: onboard-request
+06:29:31 Cleaning registries for queue: retrain-model
+06:29:31 Cleaning registries for queue: onboard-request
+06:56:31 Cleaning registries for queue: onboard-request
+06:56:31 Cleaning registries for queue: retrain-model
+07:23:31 Cleaning registries for queue: retrain-model
+07:23:31 Cleaning registries for queue: onboard-request
