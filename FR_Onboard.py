@@ -163,6 +163,26 @@ def get_spoof_features(img):
     return compute_msu_iqa_features(img)
 
 
+# Spoof feature for new model
+def get_spoof_features2(img):
+    """
+        Generate spoof detection features
+        :param img: single image file in OpenCv default format ( BGR, m*n*3)
+        :return: image tranformed to RGB channels with dimensions 3*m*n
+        """
+    # Converting default BGR of OpenCV to RGB
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # Changing dimension from 3*m*n to m*n*3
+    h_im = img[:, :, 0]
+    s_im = img[:, :, 1]
+    v_im = img[:, :, 2]
+
+    img = np.array([h_im, s_im, v_im])
+
+    return compute_msu_iqa_features(img)
+
+
 # Store login request image for logs
 def store_recognition_image(img, token, application, groupid, userid, imgCounter):
     app.logger.info('image shape: {}'.format(img.shape))
@@ -771,7 +791,7 @@ def recognise():
     recogniser = pickle.loads(open(rec_path, "rb").read())
     labelencoder = pickle.loads(open(le_path, "rb").read())
 
-    # TODO : Model not trained for user
+    # Model not trained for user
     if user not in labelencoder.classes_:
         response = recognise_response_generator(tokenNo=tokenNo,
                                                 application=application,
