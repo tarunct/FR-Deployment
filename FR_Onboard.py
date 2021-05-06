@@ -730,11 +730,17 @@ def recognise():
             'schema': {
                 'type': 'integer',
             }
+        },
+        'suspiciousFlag': {
+            'type': 'integer',
+            'empty': False,
+            'nullable': True,
+            'required': False
         }
     }
 
     v = Validator(schema)
-    v.allow_unknown = False
+    v.allow_unknown = True
 
     Response_json = {}
     ResponseCode = ''
@@ -758,6 +764,11 @@ def recognise():
     eGroup = json_['groupId']
     user = json_['userId']
     imageCounter = json_['imageCounter']
+
+    if 'suspiciousFlag' in json_:
+        suspiciousFlag = json_['suspiciousFlag']
+    else:
+        suspiciousFlag = 1
 
     app.logger.info(
         'New recognition request, application: {}, user group: {}, user: {}'.format(application, eGroup, user))
@@ -851,8 +862,16 @@ def recognise():
 
         print('Spoof probabilities; photo: {}, video: {}'.format(photoSpoofProb, videoSpoofProb))
 
-        photoSpoofPred = photoSpoofProb >= cfg.PHOTO_SPOOF_CUTOFF
-        videoSpoofPred = videoSpoofProb >= cfg.VIDEO_SPOOF_CUTOFF
+        if suspiciousFlag == 0:
+            photoSpoofCutoff = cfg.PHOTO_SPOOF_CUTOFF_NONSUS
+            videoSpoofCutoff = cfg.VIDEO_SPOOF_CUTOFF_NONSUS
+
+        else:
+            photoSpoofCutoff = cfg.PHOTO_SPOOF_CUTOFF_SUS
+            videoSpoofCutoff = cfg.VIDEO_SPOOF_CUTOFF_SUS
+
+        photoSpoofPred = photoSpoofProb >= photoSpoofCutoff
+        videoSpoofPred = videoSpoofProb >= videoSpoofCutoff
 
         if photoSpoofPred:
             response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
