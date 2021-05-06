@@ -151,26 +151,6 @@ def get_spoof_features(img):
         :return: image tranformed to RGB channels with dimensions 3*m*n
         """
     # Converting default BGR of OpenCV to RGB
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    # Changing dimension from 3*m*n to m*n*3
-    h_im = img[:, :, 0]
-    s_im = img[:, :, 1]
-    v_im = img[:, :, 2]
-
-    img = np.array([h_im, s_im, v_im])
-
-    return compute_msu_iqa_features(img)
-
-
-# Spoof feature for new model
-def get_spoof_features2(img):
-    """
-        Generate spoof detection features
-        :param img: single image file in OpenCv default format ( BGR, m*n*3)
-        :return: image tranformed to RGB channels with dimensions 3*m*n
-        """
-    # Converting default BGR of OpenCV to RGB
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     # Changing dimension from 3*m*n to m*n*3
@@ -181,6 +161,36 @@ def get_spoof_features2(img):
     img = np.array([h_im, s_im, v_im])
 
     return compute_msu_iqa_features(img)
+
+
+def calc_hist(img):
+    histogram = [0] * 3
+    for j in range(3):
+        histr = cv2.calcHist([img], [j], None, [256], [0, 256])
+        histr *= 255.0 / histr.max()
+        histogram[j] = histr
+    return np.array(histogram)
+
+
+# Spoof feature for new model
+def get_spoof_features2(img):
+    """
+        Generate spoof detection features
+        :param img: single image file in OpenCv default format ( BGR, m*n*3)
+        :return:
+        """
+    roi = img  # img_bgr[y:y+h, x:x+w]
+
+    img_ycrcb = cv2.cvtColor(roi, cv2.COLOR_BGR2YCR_CB)
+    img_luv = cv2.cvtColor(roi, cv2.COLOR_BGR2LUV)
+
+    ycrcb_hist = calc_hist(img_ycrcb)
+    luv_hist = calc_hist(img_luv)
+
+    feature_vector = np.append(ycrcb_hist.ravel(), luv_hist.ravel())
+    feature_vector = feature_vector.reshape(1, len(feature_vector))
+
+    return feature_vector
 
 
 # Store login request image for logs
@@ -834,12 +844,15 @@ def recognise():
 
         # --------  Spoof Detection Here  --------#
         spoof_feat = [get_spoof_features(image)]
+        spoof_feat2 = get_spoof_features2(image)
 
-        photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
+        photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat2)[0][1]
         videoSpoofProb = videoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
 
-        photoSpoofPred = photoSpoofProb >= cfg.SPOOF_CUTOFF
-        videoSpoofPred = videoSpoofProb >= cfg.SPOOF_CUTOFF
+        print('Spoof probabilities; photo: {}, video: {}'.format(photoSpoofProb, videoSpoofProb))
+
+        photoSpoofPred = photoSpoofProb >= cfg.PHOTO_SPOOF_CUTOFF
+        videoSpoofPred = videoSpoofProb >= cfg.VIDEO_SPOOF_CUTOFF
 
         if photoSpoofPred:
             response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
@@ -940,7 +953,7 @@ if __name__ == "__main__":
     # Load Spoof Detection models
     print("[INFO] loading spoof models...")
     videoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "video_spoof_clf"))
-    photoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "photo_spoof_clf"))
+    photoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "print-attack_ycrcb_luv_extraTreesClassifier.pkl"))
 
     # creating log dirs
     os.makedirs(os.path.join(cfg.dirc['LOGS'], 'api'), exist_ok=True)
