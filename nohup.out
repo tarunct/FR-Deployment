@@ -1469,3 +1469,11 @@ ValueError: There exists an active worker named 'FR_OnboardingWorker' already
 01:40:27 *** Listening on onboard-request...
 01:42:14 Warm shut down requested
 01:42:14 Warm shut down requested
+11:11:46 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+11:11:46 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+11:11:46 *** Listening on retrain-model...
+11:11:46 *** Listening on onboard-request...
+11:11:46 Cleaning registries for queue: onboard-request
+11:11:46 Cleaning registries for queue: retrain-model
+11:13:21 Warm shut down requested
+11:13:21 Warm shut down requested

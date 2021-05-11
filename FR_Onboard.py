@@ -202,17 +202,6 @@ def store_recognition_image(img, token, application, groupid, userid, imgCounter
     cv2.imwrite(file_path, img)
 
 
-def store_onboarding_images(img, application, groupId, userId, profile, imageId):
-    # create directory if required
-    dir_path = os.path.join('logs/OnboardImages', application, groupId, userId, profile)
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path, exist_ok=True)
-
-    app.logger.info('Storing image at {}, shape={}'.format(dir_path, img.shape))
-    if not cv2.imwrite('{}.png'.format(os.path.join(dir_path, imageId)), img):
-        app.logger.info('Couldn\'t store image {}'.format(imageId))
-
-
 @app.route('/statuschange', methods=['POST'])
 def statuschange():
     json_ = request.get_json(force=True)
@@ -625,10 +614,6 @@ def onboard():
             norm_img = cv2.normalize(image, norm_img, 0, 255, cv2.NORM_MINMAX)
             image = norm_img
 
-            # storing onboarding images to disk
-            # TODO: update function and parameters
-            # store_onboarding_images(image, application, eGroup, user, profile, img_dict['imageId'].split('.')[0])
-
             img_check = image_checks(image, profile)
 
             if img_check == -1:
@@ -833,7 +818,6 @@ def recognise():
         image = np.array(Image.open(io.BytesIO(image_64)))
 
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
-        store_recognition_image(image, tokenNo, application, eGroup, user, imageCounter)
 
         # Image normalization
         norm_img = np.zeros((image.shape[0], image.shape[1]))
@@ -869,6 +853,8 @@ def recognise():
         else:
             photoSpoofCutoff = cfg.PHOTO_SPOOF_CUTOFF_SUS
             videoSpoofCutoff = cfg.VIDEO_SPOOF_CUTOFF_SUS
+
+        print('Suspicious Flag={}; Spoof cut-offs; photo: {}, video: {}'.format(suspiciousFlag, photoSpoofCutoff, videoSpoofCutoff))
 
         photoSpoofPred = photoSpoofProb >= photoSpoofCutoff
         videoSpoofPred = videoSpoofProb >= videoSpoofCutoff
