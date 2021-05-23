@@ -151,26 +151,6 @@ def get_spoof_features(img):
         :return: image tranformed to RGB channels with dimensions 3*m*n
         """
     # Converting default BGR of OpenCV to RGB
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    # Changing dimension from 3*m*n to m*n*3
-    h_im = img[:, :, 0]
-    s_im = img[:, :, 1]
-    v_im = img[:, :, 2]
-
-    img = np.array([h_im, s_im, v_im])
-
-    return compute_msu_iqa_features(img)
-
-
-# Spoof feature for new model
-def get_spoof_features2(img):
-    """
-        Generate spoof detection features
-        :param img: single image file in OpenCv default format ( BGR, m*n*3)
-        :return: image tranformed to RGB channels with dimensions 3*m*n
-        """
-    # Converting default BGR of OpenCV to RGB
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     # Changing dimension from 3*m*n to m*n*3
@@ -183,6 +163,36 @@ def get_spoof_features2(img):
     return compute_msu_iqa_features(img)
 
 
+def calc_hist(img):
+    histogram = [0] * 3
+    for j in range(3):
+        histr = cv2.calcHist([img], [j], None, [256], [0, 256])
+        histr *= 255.0 / histr.max()
+        histogram[j] = histr
+    return np.array(histogram)
+
+
+# Spoof feature for new model
+def get_spoof_features2(img):
+    """
+        Generate spoof detection features
+        :param img: single image file in OpenCv default format ( BGR, m*n*3)
+        :return:
+        """
+    roi = img  # img_bgr[y:y+h, x:x+w]
+
+    img_ycrcb = cv2.cvtColor(roi, cv2.COLOR_BGR2YCR_CB)
+    img_luv = cv2.cvtColor(roi, cv2.COLOR_BGR2LUV)
+
+    ycrcb_hist = calc_hist(img_ycrcb)
+    luv_hist = calc_hist(img_luv)
+
+    feature_vector = np.append(ycrcb_hist.ravel(), luv_hist.ravel())
+    feature_vector = feature_vector.reshape(1, len(feature_vector))
+
+    return feature_vector
+
+
 # Store login request image for logs
 def store_recognition_image(img, token, application, groupid, userid, imgCounter):
     app.logger.info('image shape: {}'.format(img.shape))
@@ -190,17 +200,6 @@ def store_recognition_image(img, token, application, groupid, userid, imgCounter
     file_name = '{}_{}_{}_{}_{}_{}.png'.format(ts, token, application, groupid, userid, imgCounter)
     file_path = os.path.join(cfg.dirc['LOGS'], 'login-images', file_name)
     cv2.imwrite(file_path, img)
-
-
-def store_onboarding_images(img, application, groupId, userId, profile, imageId):
-    # create directory if required
-    dir_path = os.path.join('logs/OnboardImages', application, groupId, userId, profile)
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path, exist_ok=True)
-
-    app.logger.info('Storing image at {}, shape={}'.format(dir_path, img.shape))
-    if not cv2.imwrite('{}.png'.format(os.path.join(dir_path, imageId)), img):
-        app.logger.info('Couldn\'t store image {}'.format(imageId))
 
 
 @app.route('/statuschange', methods=['POST'])
@@ -615,10 +614,6 @@ def onboard():
             norm_img = cv2.normalize(image, norm_img, 0, 255, cv2.NORM_MINMAX)
             image = norm_img
 
-            # storing onboarding images to disk
-            # TODO: update function and parameters
-            # store_onboarding_images(image, application, eGroup, user, profile, img_dict['imageId'].split('.')[0])
-
             img_check = image_checks(image, profile)
 
             if img_check == -1:
@@ -720,11 +715,17 @@ def recognise():
             'schema': {
                 'type': 'integer',
             }
+        },
+        'suspiciousFlag': {
+            'type': 'integer',
+            'empty': False,
+            'nullable': True,
+            'required': False
         }
     }
 
     v = Validator(schema)
-    v.allow_unknown = False
+    v.allow_unknown = True
 
     Response_json = {}
     ResponseCode = ''
@@ -748,6 +749,11 @@ def recognise():
     eGroup = json_['groupId']
     user = json_['userId']
     imageCounter = json_['imageCounter']
+
+    if 'suspiciousFlag' in json_:
+        suspiciousFlag = json_['suspiciousFlag']
+    else:
+        suspiciousFlag = 1
 
     app.logger.info(
         'New recognition request, application: {}, user group: {}, user: {}'.format(application, eGroup, user))
@@ -812,7 +818,6 @@ def recognise():
         image = np.array(Image.open(io.BytesIO(image_64)))
 
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
-        store_recognition_image(image, tokenNo, application, eGroup, user, imageCounter)
 
         # Image normalization
         norm_img = np.zeros((image.shape[0], image.shape[1]))
@@ -834,12 +839,25 @@ def recognise():
 
         # --------  Spoof Detection Here  --------#
         spoof_feat = [get_spoof_features(image)]
+        spoof_feat2 = get_spoof_features2(image)
 
-        photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
+        photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat2)[0][1]
         videoSpoofProb = videoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
 
-        photoSpoofPred = photoSpoofProb >= cfg.SPOOF_CUTOFF
-        videoSpoofPred = videoSpoofProb >= cfg.SPOOF_CUTOFF
+        print('Spoof probabilities; photo: {}, video: {}'.format(photoSpoofProb, videoSpoofProb))
+
+        if suspiciousFlag == 0:
+            photoSpoofCutoff = cfg.PHOTO_SPOOF_CUTOFF_NONSUS
+            videoSpoofCutoff = cfg.VIDEO_SPOOF_CUTOFF_NONSUS
+
+        else:
+            photoSpoofCutoff = cfg.PHOTO_SPOOF_CUTOFF_SUS
+            videoSpoofCutoff = cfg.VIDEO_SPOOF_CUTOFF_SUS
+
+        print('Suspicious Flag={}; Spoof cut-offs; photo: {}, video: {}'.format(suspiciousFlag, photoSpoofCutoff, videoSpoofCutoff))
+
+        photoSpoofPred = photoSpoofProb >= photoSpoofCutoff
+        videoSpoofPred = videoSpoofProb >= videoSpoofCutoff
 
         if photoSpoofPred:
             response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
@@ -940,7 +958,7 @@ if __name__ == "__main__":
     # Load Spoof Detection models
     print("[INFO] loading spoof models...")
     videoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "video_spoof_clf"))
-    photoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "photo_spoof_clf"))
+    photoSpoofClf = joblib.load(os.path.join(spoof_classifier_path, "print-attack_ycrcb_luv_extraTreesClassifier.pkl"))
 
     # creating log dirs
     os.makedirs(os.path.join(cfg.dirc['LOGS'], 'api'), exist_ok=True)

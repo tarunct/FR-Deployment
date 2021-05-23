@@ -1,5 +1,4 @@
 from cryptography.fernet import Fernet
-import config as cfg
 import yaml
 import cx_Oracle
 
@@ -38,7 +37,11 @@ DB_SEQUENCES = {
 FLAG_STORE_ONBOARDING_IMAGES = 0
 FLAG_STORE_RECOGNITION_IMAGES = 1
 
-SPOOF_CUTOFF = 0.8
+PHOTO_SPOOF_CUTOFF_SUS = 0.2
+VIDEO_SPOOF_CUTOFF_SUS = 0.3
+
+PHOTO_SPOOF_CUTOFF_NONSUS = 0.3
+VIDEO_SPOOF_CUTOFF_NONSUS = 0.4
 
 ENCRYPTION_KEY = b'j6pxRDXGFYKdiO1QcusknYAxtx51bpKkW78k-5ONM_Y='
 cipher_suite = Fernet(ENCRYPTION_KEY)
