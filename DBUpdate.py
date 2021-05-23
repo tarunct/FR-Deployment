@@ -307,22 +307,21 @@ def onboard_request(json_):
 
         frGroupId = dbutils.get_frgroupid(application, eGroup)
 
-        if dbutils.check_user(application=application, groupName=eGroup, userName=user) == 0:
-            frModelId = dbutils.assign_frmodel(frGroupId)
-            dbutils.insert_user(frModelId, user)
-            dbutils.update_modelusercount(frModelId)
-
-        frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application, eGroup, user)
-
     elif requestType == 'Update':
         frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application, eGroup, user)
 
         if (
                 userStatus == 'Onboarding Complete' or userStatus == 'Profiles Complete') and profile in cfg.MANDOTORY_FACE_PROFILES:
-            dbutils.delete_all_profiles(frUsedId=frUserId)
+            dbutils.delete_user(frModelId=frModelId, frUserId=frUserId)
 
         else:
             dbutils.delete_profile(frUserId=frUserId, profile=profile)
+
+    if dbutils.check_user(application=application, groupName=eGroup, userName=user) == 0:
+        frModelId = dbutils.assign_frmodel(frGroupId)
+        dbutils.insert_user(frModelId, user)
+
+    frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application, eGroup, user)
 
     # Generate augmentation of images and insert into table
     for img_dict in json_['images']:

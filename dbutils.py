@@ -205,6 +205,8 @@ def insert_user(frModelId, userName):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
+
+            update_modelusercount(frModelId=frModelId)
         finally:
             cur.close()
     finally:
