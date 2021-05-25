@@ -14,7 +14,7 @@ ALL_FACE_PROFILES = ('front', 'left', 'right', 'top', 'bottom', 'gfront')
 MANDOTORY_FACE_PROFILES = ('front', 'left', 'right')
 FRONT_FACE_PROFILES = ('front', 'gfront')
 ONBOARDING_IMAGE_THRESHOLD = 8
-MODEL_USERS_THRESHOLD = 10
+MODEL_USERS_THRESHOLD = 2
 
 DUMMY_USERNAMES = ('DummyUser-183', 'DummyUser-189')
 DUMMY_APPLICATION_NAME = 'DUMMYAPP-01'

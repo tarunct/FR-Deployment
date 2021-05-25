@@ -29,9 +29,9 @@ def create_connection():
         # conn = cx_Oracle.connect('UCOR_DEV', 'u7t5b4m2', dsn_tns)
 
         conn = cfg.db_pool.acquire()
-    except:
-        # TODO: Report DB access error
-        print('Can\'t connect to database')
+    except Exception as e:
+        # Report DB access error
+        print('Can\'t connect to database: {}'.format(repr(e)))
 
     return conn
 
@@ -39,6 +39,7 @@ def create_connection():
 # *-
 def clear_database():
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -59,9 +60,15 @@ def clear_database():
 
             conn.commit()
 
-        finally:
-            cur.close()
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -69,6 +76,7 @@ def clear_database():
 # *-
 def check_egroup(application, groupName):
     conn = None
+    cur = None
     eGroupExists = None
     try:
         conn = create_connection()
@@ -83,9 +91,16 @@ def check_egroup(application, groupName):
             for row in cur.execute(query):
                 eGroupExists = row[0]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -96,6 +111,7 @@ def check_egroup(application, groupName):
 def check_user(application, groupName, userName):
     conn = None
     userExists = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -112,9 +128,17 @@ def check_user(application, groupName, userName):
             for row in cur.execute(query):
                 userExists = row[0]
                 break
-        finally:
+
             cur.close()
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -124,6 +148,7 @@ def check_user(application, groupName, userName):
 # *-
 def insert_egroup(application, eGroup):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -144,9 +169,17 @@ def insert_egroup(application, eGroup):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
             cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -154,6 +187,7 @@ def insert_egroup(application, eGroup):
 # *-
 def insert_frmodel(frGroupId, frModelNo):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -176,9 +210,16 @@ def insert_frmodel(frGroupId, frModelNo):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
             cur.close()
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -186,6 +227,7 @@ def insert_frmodel(frGroupId, frModelNo):
 # *-
 def insert_user(frModelId, userName):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -205,11 +247,19 @@ def insert_user(frModelId, userName):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
+            cur.close()
 
             update_modelusercount(frModelId=frModelId)
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -217,6 +267,7 @@ def insert_user(frModelId, userName):
 # *-
 def assign_frmodel(frGroupId):
     conn = None
+    cur = None
     frModelId = None
     try:
         conn = create_connection()
@@ -236,7 +287,6 @@ def assign_frmodel(frGroupId):
                 query = "SELECT MAX(MODEL_NO) FROM {} WHERE FR_USERGROUP_ID={}".format(
                     TABLE_FRM,
                     frGroupId)
-                cur = conn.cursor()
 
                 newModelNo = None
                 for row in cur.execute(query):
@@ -247,9 +297,17 @@ def assign_frmodel(frGroupId):
 
                 frModelId = get_frmodelid(frGroupId, newModelNo)
 
-        finally:
             cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -259,6 +317,7 @@ def assign_frmodel(frGroupId):
 # *-
 def get_frgroupid(application, groupname):
     conn = None
+    cur = None
     frGroupId = None
     try:
         conn = create_connection()
@@ -273,9 +332,18 @@ def get_frgroupid(application, groupname):
             for row in cur.execute(query):
                 frGroupId = row[0]
                 break
-        finally:
+
             cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -285,6 +353,7 @@ def get_frgroupid(application, groupname):
 # *-
 def get_frmodelid(frGroupId, frModelNo):
     conn = None
+    cur = None
     frModelId = None
     try:
         conn = create_connection()
@@ -299,9 +368,16 @@ def get_frmodelid(frGroupId, frModelNo):
             for row in cur.execute(query):
                 frModelId = row[0]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -311,6 +387,7 @@ def get_frmodelid(frGroupId, frModelNo):
 # *-
 def get_fruserid(frModelId, userName):
     conn = None
+    cur = None
     frGroupId = None
     try:
         conn = create_connection()
@@ -325,9 +402,16 @@ def get_fruserid(frModelId, userName):
             for row in cur.execute(query):
                 frGroupId = row[0]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -337,6 +421,7 @@ def get_fruserid(frModelId, userName):
 # *-
 def get_fruserdetails(application, groupName, userName):
     conn = None
+    cur = None
     frGroupId = None
     frModelId = None
     frUserId = None
@@ -360,9 +445,16 @@ def get_fruserdetails(application, groupName, userName):
                 frUserId = row[2]
                 userStatus = row[3]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -372,6 +464,7 @@ def get_fruserdetails(application, groupName, userName):
 # *-
 def update_modelusercount(frModelId):
     conn = None
+    cur = None
     userCount = None
     try:
         conn = create_connection()
@@ -396,9 +489,15 @@ def update_modelusercount(frModelId):
             cur.execute(query)
             conn.commit()
 
-        finally:
-            cur.close()
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -406,6 +505,7 @@ def update_modelusercount(frModelId):
 # *-
 def delete_user(frModelId, frUserId):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -424,9 +524,16 @@ def delete_user(frModelId, frUserId):
             conn.commit()
 
             update_modelusercount(frModelId=frModelId)
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
     return 1
@@ -435,6 +542,8 @@ def delete_user(frModelId, frUserId):
 # *-
 def get_userlist(frModelId):
     conn = None
+    cur = None
+    users = None
     try:
         conn = create_connection()
 
@@ -446,9 +555,16 @@ def get_userlist(frModelId):
 
             cur.execute(query)
             users = [i[0] for i in cur.fetchall()]
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -458,6 +574,7 @@ def get_userlist(frModelId):
 # *-
 def get_userstatus(frUserId):
     conn = None
+    cur = None
     userStatus = None
     try:
         conn = create_connection()
@@ -471,9 +588,16 @@ def get_userstatus(frUserId):
             for row in cur.execute(query):
                 userStatus = row[0]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -483,6 +607,7 @@ def get_userstatus(frUserId):
 # *-
 def get_profiles(frUsedId):
     conn = None
+    cur = None
     profiles = []
     try:
         conn = create_connection()
@@ -494,9 +619,16 @@ def get_profiles(frUsedId):
             cur = conn.cursor()
             for row in cur.execute(query):
                 profiles.append(row[0])
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -505,11 +637,8 @@ def get_profiles(frUsedId):
 
 # *-
 def get_dummy_data():
-    """
-
-    :return:
-    """
     conn = None
+    cur = None
     userId = []
     embeddings = []
     try:
@@ -526,9 +655,16 @@ def get_dummy_data():
             for row in cur.execute(query):
                 userId.append(row[0])
                 embeddings.append(np.frombuffer(base64.b64decode(row[1].read()), np.float32))
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -537,8 +673,8 @@ def get_dummy_data():
 
 # *-
 def get_user_embeddings(userIdList):
-
     conn = None
+    cur = None
     usernames = []
     embeddings = []
     try:
@@ -562,17 +698,26 @@ def get_user_embeddings(userIdList):
             for row in cur.execute(query):
                 usernames.append(row[0])
                 embeddings.append(np.frombuffer(base64.b64decode(row[1].read()), np.float32))
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
+
     return usernames, embeddings
 
 
 # *-
 def get_modelno(frModelId):
     conn = None
+    cur = None
     modelNo = None
     try:
         conn = create_connection()
@@ -586,9 +731,16 @@ def get_modelno(frModelId):
             for row in cur.execute(query):
                 modelNo = row[0]
                 break
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -598,6 +750,7 @@ def get_modelno(frModelId):
 # *-
 def set_users_active(userList):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -620,9 +773,16 @@ def set_users_active(userList):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -632,6 +792,7 @@ def set_users_active(userList):
 # *-
 def delete_profile(frUserId, profile):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -643,9 +804,16 @@ def delete_profile(frUserId, profile):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -653,6 +821,7 @@ def delete_profile(frUserId, profile):
 # *-
 def delete_all_profiles(frUsedId):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -663,9 +832,16 @@ def delete_all_profiles(frUsedId):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -675,6 +851,7 @@ def delete_all_profiles(frUsedId):
 # *-
 def update_user_status(frUserId, newUserStatus):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -690,9 +867,16 @@ def update_user_status(frUserId, newUserStatus):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -717,6 +901,7 @@ def update_onboarding_status(frUserId):
 # *-
 def set_model_retrain_flag(frModelId):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -732,9 +917,16 @@ def set_model_retrain_flag(frModelId):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -742,6 +934,7 @@ def set_model_retrain_flag(frModelId):
 # *-
 def reset_model_retrain_flag(frModelId):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -758,9 +951,16 @@ def reset_model_retrain_flag(frModelId):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -768,6 +968,7 @@ def reset_model_retrain_flag(frModelId):
 # *-
 def insert_embeddings(embedding_rows):
     conn = None
+    cur = None
     try:
         conn = create_connection()
 
@@ -791,9 +992,16 @@ def insert_embeddings(embedding_rows):
                 cur.execute(query, blobdata=_r[4])
 
             conn.commit()
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
@@ -801,6 +1009,7 @@ def insert_embeddings(embedding_rows):
 # *-
 def get_front_embeddings(frUserId):
     conn = None
+    cur = None
     embeddings = []
     try:
         conn = create_connection()
@@ -814,9 +1023,16 @@ def get_front_embeddings(frUserId):
             cur.execute(query)
             for row in cur.execute(query):
                 embeddings.append(np.frombuffer(base64.b64decode(row[0].read()), np.float32))
-        finally:
-            cur.close()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+
     finally:
+        if cur is not None:
+            cur.close()
         if conn is not None:
             conn.close()
 
