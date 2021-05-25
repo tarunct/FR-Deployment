@@ -1644,3 +1644,113 @@ ValueError: There exists an active worker named 'FR_OnboardingWorker' already
 01:28:34 Result is kept for 500 seconds
 01:28:57 Warm shut down requested
 01:28:57 Warm shut down requested
+02:16:39 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+02:16:39 *** Listening on onboard-request...
+02:16:39 Cleaning registries for queue: onboard-request
+02:16:39 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+02:16:39 *** Listening on retrain-model...
+02:16:39 Cleaning registries for queue: retrain-model
+02:21:27 Warm shut down requested
+02:21:27 Warm shut down requested
+02:21:35 Worker rq:worker:FR_OnboardingWorker: started, version 1.5.2
+02:21:35 *** Listening on onboard-request...
+02:21:35 Worker rq:worker:FR_RetrainingWorker: started, version 1.5.2
+02:21:35 *** Listening on retrain-model...
+02:22:21 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (fb9bd546-4913-4438-96d8-9e6713b0a1ad)
+2021-05-26 02:22:25.227425: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:22:25.249404: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:22:25.249678: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169b890 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:22:25.249695: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:22:25.249811: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:22:45 onboard-request: Job OK (fb9bd546-4913-4438-96d8-9e6713b0a1ad)
+02:22:45 Result is kept for 500 seconds
+02:22:45 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (074cf835-5c6d-4bba-881b-30e69db630d9)
+2021-05-26 02:22:47.868100: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:22:47.889606: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:22:47.889872: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807117f620 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:22:47.889896: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:22:47.889983: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:23:07 onboard-request: Job OK (074cf835-5c6d-4bba-881b-30e69db630d9)
+02:23:07 Result is kept for 500 seconds
+02:23:07 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (fd806ca8-3d83-48c5-b36e-4545f1dcb9be)
+2021-05-26 02:23:09.694913: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:23:09.717629: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:23:09.717880: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169dcd0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:23:09.717927: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:23:09.718012: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:23:29 retrain-model: scheduler.retrain_model({'application': 'InstapagoTest', 'groupId': 'DEMO1', 'frModelId': 13}) (9ed313af-5ac4-444a-9d31-35a7f119ff6c)
+02:23:29 onboard-request: Job OK (fd806ca8-3d83-48c5-b36e-4545f1dcb9be)
+02:23:29 Result is kept for 500 seconds
+02:24:33 retrain-model: Job OK (9ed313af-5ac4-444a-9d31-35a7f119ff6c)
+02:24:33 Result is kept for 500 seconds
+02:24:49 onboard-request: DBUpdate.onboard_request({'requestType': 'Update', 'applicationName': 'InstapagoTest', 'groupId': 'D...) (91fe9d47-ba5a-4e04-85f9-f5b52e93518d)
+2021-05-26 02:24:54.461735: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:24:54.485614: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:24:54.485898: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55806ff29140 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:24:54.485934: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:24:54.486018: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:25:13 onboard-request: Job OK (91fe9d47-ba5a-4e04-85f9-f5b52e93518d)
+02:25:13 Result is kept for 500 seconds
+02:25:14 onboard-request: DBUpdate.onboard_request({'requestType': 'Update', 'applicationName': 'InstapagoTest', 'groupId': 'D...) (6ec56ead-0f13-41f9-9903-750f2ffac7ba)
+2021-05-26 02:25:16.892380: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:25:16.917600: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:25:16.917842: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169bca0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:25:16.917883: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:25:16.917972: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:25:36 onboard-request: Job OK (6ec56ead-0f13-41f9-9903-750f2ffac7ba)
+02:25:36 Result is kept for 500 seconds
+02:31:54 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (c109fd01-6ebb-471f-ad4b-01bf3310ea4d)
+2021-05-26 02:31:59.023686: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:31:59.061231: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:31:59.061444: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169d5e0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:31:59.061464: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:31:59.061529: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:32:18 onboard-request: Job OK (c109fd01-6ebb-471f-ad4b-01bf3310ea4d)
+02:32:18 Result is kept for 500 seconds
+02:32:18 Cleaning registries for queue: onboard-request
+02:32:19 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (7ffe6a4b-d32b-4861-b5d8-45d650b6760f)
+2021-05-26 02:32:21.508805: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:32:21.533698: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:32:21.533973: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169f130 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:32:21.534026: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:32:21.534107: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:32:40 onboard-request: Job OK (7ffe6a4b-d32b-4861-b5d8-45d650b6760f)
+02:32:40 Result is kept for 500 seconds
+02:32:41 onboard-request: DBUpdate.onboard_request({'requestType': 'New', 'applicationName': 'InstapagoTest', 'groupId': 'DEMO...) (3f58a81d-4f56-4bc9-9699-5e4f95b1a073)
+2021-05-26 02:32:43.599793: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:32:43.621398: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:32:43.621647: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5580710040a0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:32:43.621670: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:32:43.621739: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:33:03 retrain-model: scheduler.retrain_model({'application': 'InstapagoTest', 'groupId': 'DEMO1', 'frModelId': 13}) (e9c7a041-f1ad-4452-9ca3-34d8d22cb30e)
+02:33:03 onboard-request: Job OK (3f58a81d-4f56-4bc9-9699-5e4f95b1a073)
+02:33:03 Result is kept for 500 seconds
+02:34:06 retrain-model: Job OK (e9c7a041-f1ad-4452-9ca3-34d8d22cb30e)
+02:34:06 Result is kept for 500 seconds
+02:34:06 Cleaning registries for queue: retrain-model
+02:34:40 onboard-request: DBUpdate.onboard_request({'requestType': 'Update', 'applicationName': 'InstapagoTest', 'groupId': 'D...) (6f813a62-b439-4102-a1bc-2ac3454eed0b)
+2021-05-26 02:34:45.482238: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:34:45.517239: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:34:45.517462: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55807169f640 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:34:45.517480: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:34:45.517546: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:35:05 onboard-request: Job OK (6f813a62-b439-4102-a1bc-2ac3454eed0b)
+02:35:05 Result is kept for 500 seconds
+02:35:06 onboard-request: DBUpdate.onboard_request({'requestType': 'Update', 'applicationName': 'InstapagoTest', 'groupId': 'D...) (f7c15b31-f85f-4d67-a827-eac1d0a5aa45)
+2021-05-26 02:35:08.819573: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:35:08.841623: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:35:08.841876: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x558071180c40 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:35:08.841899: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:35:08.841969: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:35:28 onboard-request: Job OK (f7c15b31-f85f-4d67-a827-eac1d0a5aa45)
+02:35:28 Result is kept for 500 seconds
+02:35:29 onboard-request: DBUpdate.onboard_request({'requestType': 'Update', 'applicationName': 'InstapagoTest', 'groupId': 'D...) (79035a2f-c93f-4c1c-8738-94aa10ea8cc7)
+2021-05-26 02:35:31.895339: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2021-05-26 02:35:31.917597: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-05-26 02:35:31.917870: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5580710a37f0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-05-26 02:35:31.917925: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-05-26 02:35:31.918004: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+02:35:41 Warm shut down requested
+02:35:41 Warm shut down requested
+02:35:41 Moving job to FailedJobRegistry (work-horse terminated unexpectedly; waitpid returned 15)
+02:35:41 Worker rq:worker:FR_OnboardingWorker: stopping on request

@@ -129,7 +129,6 @@ def check_user(application, groupName, userName):
                 userExists = row[0]
                 break
 
-            cur.close()
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
 
@@ -169,7 +168,6 @@ def insert_egroup(application, eGroup):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-            cur.close()
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
@@ -210,7 +208,6 @@ def insert_frmodel(frGroupId, frModelNo):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-            cur.close()
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
 
@@ -247,7 +244,6 @@ def insert_user(frModelId, userName):
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-            cur.close()
 
             update_modelusercount(frModelId=frModelId)
 
@@ -297,8 +293,6 @@ def assign_frmodel(frGroupId):
 
                 frModelId = get_frmodelid(frGroupId, newModelNo)
 
-            cur.close()
-
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
 
@@ -332,8 +326,6 @@ def get_frgroupid(application, groupname):
             for row in cur.execute(query):
                 frGroupId = row[0]
                 break
-
-            cur.close()
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
