@@ -14,6 +14,7 @@ SEQ_FRM = cfg.DB_SEQUENCES['MODELS']
 SEQ_FRE = cfg.DB_SEQUENCES['EMBEDDINGS']
 
 DB_USERTAG = 'ML_FR_API'
+DB_USERTAG = 'ML_FR_API'
 
 
 def create_connection():
@@ -269,7 +270,7 @@ def assign_frmodel(frGroupId):
         conn = create_connection()
 
         try:
-            query = "SELECT FR_MODEL_ID, MODEL_NO, USER_COUNT FROM {} WHERE FR_USERGROUP_ID={}".format(
+            query = "SELECT FR_MODEL_ID, MODEL_NO, USER_COUNT FROM {} WHERE FR_USERGROUP_ID={} ORDER BY MODEL_NO".format(
                 TABLE_FRM,
                 frGroupId)
             cur = conn.cursor()
