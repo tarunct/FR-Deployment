@@ -1,5 +1,6 @@
 import base64
 import datetime
+import traceback
 import numpy as np
 import config as cfg
 
@@ -13,7 +14,6 @@ SEQ_FRU = cfg.DB_SEQUENCES['USERS']
 SEQ_FRM = cfg.DB_SEQUENCES['MODELS']
 SEQ_FRE = cfg.DB_SEQUENCES['EMBEDDINGS']
 
-DB_USERTAG = 'ML_FR_API'
 DB_USERTAG = 'ML_FR_API'
 
 
@@ -30,9 +30,12 @@ def create_connection():
         # conn = cx_Oracle.connect('UCOR_DEV', 'u7t5b4m2', dsn_tns)
 
         conn = cfg.db_pool.acquire()
+        # print(cfg.db_pool)
+
     except Exception as e:
         # Report DB access error
         print('Can\'t connect to database: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     return conn
 
@@ -63,9 +66,11 @@ def clear_database():
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -95,9 +100,11 @@ def check_egroup(application, groupName):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -132,9 +139,11 @@ def check_user(application, groupName, userName):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -172,9 +181,11 @@ def insert_egroup(application, eGroup):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -211,9 +222,11 @@ def insert_frmodel(frGroupId, frModelNo):
             conn.commit()
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -250,9 +263,11 @@ def insert_user(frModelId, userName):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -296,9 +311,11 @@ def assign_frmodel(frGroupId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -330,9 +347,11 @@ def get_frgroupid(application, groupname):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -364,9 +383,11 @@ def get_frmodelid(frGroupId, frModelNo):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -398,9 +419,11 @@ def get_fruserid(frModelId, userName):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -441,9 +464,11 @@ def get_fruserdetails(application, groupName, userName):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -484,9 +509,11 @@ def update_modelusercount(frModelId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -520,9 +547,11 @@ def delete_user(frModelId, frUserId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -551,9 +580,11 @@ def get_userlist(frModelId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -584,9 +615,11 @@ def get_userstatus(frUserId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -615,9 +648,11 @@ def get_profiles(frUsedId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -651,9 +686,11 @@ def get_dummy_data():
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -694,9 +731,11 @@ def get_user_embeddings(userIdList):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -727,9 +766,11 @@ def get_modelno(frModelId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -769,9 +810,11 @@ def set_users_active(userList):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -800,9 +843,11 @@ def delete_profile(frUserId, profile):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -828,9 +873,11 @@ def delete_all_profiles(frUsedId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -863,9 +910,11 @@ def update_user_status(frUserId, newUserStatus):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -913,9 +962,11 @@ def set_model_retrain_flag(frModelId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -947,9 +998,11 @@ def reset_model_retrain_flag(frModelId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -988,9 +1041,11 @@ def insert_embeddings(embedding_rows):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:
@@ -1019,9 +1074,11 @@ def get_front_embeddings(frUserId):
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
 
     except Exception as e:
         print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
 
     finally:
         if cur is not None:

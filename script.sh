@@ -10,10 +10,10 @@ start() {
    source activate Facerecognition
 
    echo "Starting redis worker for onboard-request queue"
-   nohup python3 FR_OnboardingWorker.py &
+   nohup python3 FR_OnboardingWorker.py > data/dir-rw/logs/nohup_FR_OnboardingWorker.out 2>&1 &
 
    echo "Starting redis worker for retrain-model queue"
-   nohup python3 FR_RetrainingWorker.py &
+   nohup python3 FR_RetrainingWorker.py > data/dir-rw/logs/nohup_FR_RetrainingWorker.out 2>&1 &
 
    echo "Starting Face recognition api"
    python3 FR_Onboard.py &

@@ -14,7 +14,6 @@ ALL_FACE_PROFILES = ('front', 'left', 'right', 'top', 'bottom', 'gfront')
 MANDOTORY_FACE_PROFILES = ('front', 'left', 'right')
 FRONT_FACE_PROFILES = ('front', 'gfront')
 ONBOARDING_IMAGE_THRESHOLD = 8
-MODEL_USERS_THRESHOLD = 2
 
 DUMMY_USERNAMES = ('DummyUser-183', 'DummyUser-189')
 DUMMY_APPLICATION_NAME = 'DUMMYAPP-01'
@@ -33,9 +32,6 @@ DB_SEQUENCES = {
     'MODELS': 'FR_MODELS_SEQ',
     'EMBEDDINGS': 'FR_USEREMBEDDINGS_SEQ'
 }
-
-FLAG_STORE_ONBOARDING_IMAGES = 0
-FLAG_STORE_RECOGNITION_IMAGES = 1
 
 PHOTO_SPOOF_CUTOFF_SUS = 0.2
 VIDEO_SPOOF_CUTOFF_SUS = 0.3
@@ -73,6 +69,10 @@ REDIS_HOST = params.get('redis_host')
 REDIS_PORT = params.get('redis_port')
 REDIS_ONBOARD_QUEUE = params.get('onboarding_queue')
 REDIS_RETRAIN_QUEUE = params.get('retraining_queue')
+
+MODEL_USERS_THRESHOLD = params.get('model_users_threshold')
+FLAG_STORE_ONBOARDING_IMAGES = 0
+FLAG_STORE_RECOGNITION_IMAGES = params.get('flag_store_recognition_images')
 
 dsn_tns = cx_Oracle.makedsn(DB_IP, int(DB_PORT), DB_TAG)
 db_pool = cx_Oracle.SessionPool(DB_USER, DB_PWD, dsn_tns, min=2, max=5, increment=1, threaded=True)

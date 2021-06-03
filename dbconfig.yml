@@ -6,17 +6,16 @@ db_host_ip: 'gAAAAABgMsR7b8mp5aeMPB0JSuRb2tppsK8fB2Xe1yM5rexQrhI6--3IfJVoW_Soh56
 
 db_port: 'gAAAAABgMsSdWWwwuqHBX-OvIR5Auqh8TN8nYVqZYVmXSxn-Tzj0vCyEqo6ohcpoJnbEQSMJI-6XW7ele7nDYpxhtHFx-temeA=='
 
-# Old db
-#db_tag: 'gAAAAABgMsS_ZzEGVXAopfR0QrRqjOHFSbXV-Lg-VUDx0D-eTYnDH106Yzw4p-yIWVM6ALNBBT_Yu16RigU47HJerDMBpJomxw=='
-#db_user: 'gAAAAABgMsTaKttAs4kgYoJzkx7EZAz3fGjh8dZhPFMmR6T9xISdsCsq0Qxj_Bucoi7TXmdlk5AbRxiiBPsnFVtfU2NIPQEqHQ=='
-#db_pwd: 'gAAAAABgMsTvwmv_NiFFIt8JwufPZiiEDbM6yToqT2KPQ74SxTioKqpbV2raHziRudOwMiyHFMxr2DJtsCoe6Gr0xT0pBmqSJA=='
-
 # UAT new db
 db_tag: 'gAAAAABgfUZOvjcznE614VQggRicaTWUdWVwASQfG1E3NMTJ8GlpUlSUZeyRAQ-ShWBRsupFhCxuQdJtVv5g2RRMXdh_yULN5g=='
 db_user: 'gAAAAABgfUYQumtvi9cP_zzLWWX9TeIVw1lxmCshSpQbiAu_V471Bj7G6Bn-8JRpuxxuKvRXArzOfrD9KGoi0X0hz6tZqzp7iQ=='
 db_pwd: 'gAAAAABgfUZ1Y5a8Ye4921UHP6LXwGJxidD1oA0obCchKYxueJ5ZKELZv_s37PCEsHOEDTNDCgToXdCGswf08L2s5If9QUVM_Q=='
 
+onboarding_queue: 'ml-facerecognition-onboard-request'
+retraining_queue: 'ml-facerecognition-retrain-model'
+
 redis_host: '10.72.15.119'
 redis_port: 6379
-onboarding_queue: 'onboard-request'
-retraining_queue: 'retrain-model'
+
+model_users_threshold: 10
+flag_store_recognition_images: 1
