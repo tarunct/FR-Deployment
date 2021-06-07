@@ -654,6 +654,7 @@ def onboard():
             'profile': profile,
             'images': images_accepted
         }
+
         # Send onboarding request data to DBUpdate Redis Queue
         job = q.enqueue(onboard_request, args=(dbupdate_json,))
 

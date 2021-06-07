@@ -14,7 +14,7 @@ db_pwd: 'gAAAAABgfUZ1Y5a8Ye4921UHP6LXwGJxidD1oA0obCchKYxueJ5ZKELZv_s37PCEsHOEDTN
 onboarding_queue: 'ml-facerecognition-onboard-request'
 retraining_queue: 'ml-facerecognition-retrain-model'
 
-redis_host: '10.72.15.119'
+redis_host: 'redis-server'
 redis_port: 6379
 
 model_users_threshold: 10

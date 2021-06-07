@@ -75,4 +75,4 @@ FLAG_STORE_ONBOARDING_IMAGES = 0
 FLAG_STORE_RECOGNITION_IMAGES = params.get('flag_store_recognition_images')
 
 dsn_tns = cx_Oracle.makedsn(DB_IP, int(DB_PORT), DB_TAG)
-db_pool = cx_Oracle.SessionPool(DB_USER, DB_PWD, dsn_tns, min=2, max=5, increment=1, threaded=True)
+db_pool = cx_Oracle.SessionPool(DB_USER, DB_PWD, dsn_tns, min=2, max=5, increment=1, threaded=True, getmode=cx_Oracle.SPOOL_ATTRVAL_WAIT)
