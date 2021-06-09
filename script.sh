@@ -37,6 +37,30 @@ stop() {
 
 }
 
+status() {
+   if ps ax | grep "FR_Onboard.py" | grep -v grep > /dev/null
+   then
+     echo "Facerecognition API: Running"
+   else
+     echo "Facerecognition API: Stopped"
+   fi
+
+   if ps ax | grep "FR_OnboardingWorker.py" | grep -v grep > /dev/null
+   then
+     echo "FR_OnboardingWorker: Running"
+   else
+     echo "FR_OnboardingWorker: Stopped"
+   fi
+
+   if ps ax | grep "FR_RetrainingWorker.py" | grep -v grep > /dev/null
+   then
+     echo "FR_RetrainingWorker: Running"
+   else
+     echo "FR_RetrainingWorker: Stopped"
+   fi
+
+}
+
 case "$1" in
     start)
        start
@@ -48,6 +72,9 @@ case "$1" in
        stop
        start
        ;;
+    status)
+      status
+      ;;
     *)
-       echo "Usage: $0 {start|stop|restart}"
+       echo "Usage: $0 {start|stop|restart|status}"
 esac

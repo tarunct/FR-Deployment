@@ -3,6 +3,7 @@ import datetime
 import traceback
 import numpy as np
 import config as cfg
+import cx_Oracle
 
 TABLE_FRUG = cfg.DB_TABLES['USER_GROUP']
 TABLE_FRU = cfg.DB_TABLES['USERS']
@@ -28,8 +29,9 @@ def create_connection():
         # dsn_tns = cx_Oracle.makedsn('10.72.12.72', 1521, 'ucor')
         # dsn_tns = cx_Oracle.makedsn('10.50.36.65', 1521, 'ucor')
         # conn = cx_Oracle.connect('UCOR_DEV', 'u7t5b4m2', dsn_tns)
+        conn = cx_Oracle.connect(cfg.DB_USER, cfg.DB_PWD, cfg.db_dsn_tns)
 
-        conn = cfg.db_pool.acquire()
+        # conn = cfg.db_pool.acquire()
         # print(cfg.db_pool)
 
     except Exception as e:
@@ -41,11 +43,11 @@ def create_connection():
 
 
 # *-
-def clear_database():
-    conn = None
+def clear_database(conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             cur = conn.cursor()
@@ -80,12 +82,12 @@ def clear_database():
 
 
 # *-
-def check_egroup(application, groupName):
-    conn = None
+def check_egroup(application, groupName, conn=None):
     cur = None
     eGroupExists = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT COUNT(*) FROM {} WHERE APPLICATION='{}' AND GROUP_NAME='{}'".format(
@@ -116,12 +118,12 @@ def check_egroup(application, groupName):
 
 
 # *-
-def check_user(application, groupName, userName):
-    conn = None
+def check_user(application, groupName, userName, conn=None):
     userExists = None
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT COUNT(*) FROM {} frug, {} frm , {} fru WHERE frug.FR_USERGROUP_ID=frm.FR_USERGROUP_ID AND frm.FR_MODEL_ID=fru.FR_MODEL_ID AND frug.APPLICATION='{}' AND frug.GROUP_NAME='{}' AND fru.USERNAME='{}'".format(
@@ -155,11 +157,11 @@ def check_user(application, groupName, userName):
 
 
 # *-
-def insert_egroup(application, eGroup):
-    conn = None
+def insert_egroup(application, eGroup, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -195,11 +197,11 @@ def insert_egroup(application, eGroup):
 
 
 # *-
-def insert_frmodel(frGroupId, frModelNo):
-    conn = None
+def insert_frmodel(frGroupId, frModelNo, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -236,11 +238,11 @@ def insert_frmodel(frGroupId, frModelNo):
 
 
 # *-
-def insert_user(frModelId, userName):
-    conn = None
+def insert_user(frModelId, userName, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -277,12 +279,12 @@ def insert_user(frModelId, userName):
 
 
 # *-
-def assign_frmodel(frGroupId):
-    conn = None
+def assign_frmodel(frGroupId, conn=None):
     cur = None
     frModelId = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT FR_MODEL_ID, MODEL_NO, USER_COUNT FROM {} WHERE FR_USERGROUP_ID={} ORDER BY MODEL_NO".format(
@@ -327,12 +329,12 @@ def assign_frmodel(frGroupId):
 
 
 # *-
-def get_frgroupid(application, groupname):
-    conn = None
+def get_frgroupid(application, groupname, conn=None):
     cur = None
     frGroupId = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT FR_USERGROUP_ID FROM {} WHERE APPLICATION='{}' AND GROUP_NAME='{}'".format(
@@ -363,12 +365,12 @@ def get_frgroupid(application, groupname):
 
 
 # *-
-def get_frmodelid(frGroupId, frModelNo):
-    conn = None
+def get_frmodelid(frGroupId, frModelNo, conn=None):
     cur = None
     frModelId = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT FR_MODEL_ID FROM {} WHERE FR_USERGROUP_ID={} AND MODEL_NO={}".format(
@@ -399,12 +401,12 @@ def get_frmodelid(frGroupId, frModelNo):
 
 
 # *-
-def get_fruserid(frModelId, userName):
-    conn = None
+def get_fruserid(frModelId, userName, conn=None):
     cur = None
     frGroupId = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT FR_USER_ID FROM {} WHERE FR_MODEL_ID={} AND USERNAME='{}'".format(
@@ -435,15 +437,15 @@ def get_fruserid(frModelId, userName):
 
 
 # *-
-def get_fruserdetails(application, groupName, userName):
-    conn = None
+def get_fruserdetails(application, groupName, userName, conn=None):
     cur = None
     frGroupId = None
     frModelId = None
     frUserId = None
     userStatus = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT frug.FR_USERGROUP_ID, frm.FR_MODEL_ID, fru.FR_USER_ID, fru.USER_STATUS FROM {} frug, {} frm , {} fru WHERE frug.FR_USERGROUP_ID=frm.FR_USERGROUP_ID AND frm.FR_MODEL_ID=fru.FR_MODEL_ID AND frug.APPLICATION='{}' AND frug.GROUP_NAME='{}' AND fru.USERNAME='{}'".format(
@@ -480,12 +482,12 @@ def get_fruserdetails(application, groupName, userName):
 
 
 # *-
-def update_modelusercount(frModelId):
-    conn = None
+def update_modelusercount(frModelId, conn=None):
     cur = None
     userCount = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT COUNT(FR_USER_ID) FROM {} WHERE FR_MODEL_ID={}".format(
@@ -523,11 +525,11 @@ def update_modelusercount(frModelId):
 
 
 # *-
-def delete_user(frModelId, frUserId):
-    conn = None
+def delete_user(frModelId, frUserId, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             cur = conn.cursor()
@@ -562,12 +564,12 @@ def delete_user(frModelId, frUserId):
 
 
 # *-
-def get_userlist(frModelId):
-    conn = None
+def get_userlist(frModelId, conn=None):
     cur = None
     users = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT FR_USER_ID FROM {} WHERE FR_MODEL_ID={} AND USER_STATUS IN ('Onboarding Complete', 'Profiles Complete')".format(
@@ -596,12 +598,12 @@ def get_userlist(frModelId):
 
 
 # *-
-def get_userstatus(frUserId):
-    conn = None
+def get_userstatus(frUserId, conn=None):
     cur = None
     userStatus = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT USER_STATUS FROM {} WHERE FR_USER_ID={}".format(
@@ -631,12 +633,12 @@ def get_userstatus(frUserId):
 
 
 # *-
-def get_profiles(frUsedId):
-    conn = None
+def get_profiles(frUsedId, conn=None):
     cur = None
     profiles = []
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT DISTINCT Orientation FROM {} WHERE FR_USER_ID={}".format(
@@ -664,13 +666,13 @@ def get_profiles(frUsedId):
 
 
 # *-
-def get_dummy_data():
-    conn = None
+def get_dummy_data(conn=None):
     cur = None
     userId = []
     embeddings = []
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT fru.USERNAME, fre.EMBEDDING FROM {} fru, {} fre WHERE fru.FR_USER_ID=fre.FR_USER_ID AND fru.USERNAME IN {} AND fre.ORIENTATION IN {}".format(
@@ -702,13 +704,13 @@ def get_dummy_data():
 
 
 # *-
-def get_user_embeddings(userIdList):
-    conn = None
+def get_user_embeddings(userIdList, conn=None):
     cur = None
     usernames = []
     embeddings = []
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             if len(userIdList) == 1:
@@ -747,12 +749,12 @@ def get_user_embeddings(userIdList):
 
 
 # *-
-def get_modelno(frModelId):
-    conn = None
+def get_modelno(frModelId, conn=None):
     cur = None
     modelNo = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT MODEL_NO FROM {} WHERE FR_MODEL_ID={}".format(
@@ -782,11 +784,11 @@ def get_modelno(frModelId):
 
 
 # *-
-def set_users_active(userList):
-    conn = None
+def set_users_active(userList, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -826,11 +828,11 @@ def set_users_active(userList):
 
 
 # *-
-def delete_profile(frUserId, profile):
-    conn = None
+def delete_profile(frUserId, profile, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "DELETE FROM {} WHERE FR_USER_ID={} AND ORIENTATION='{}'".format(
@@ -857,11 +859,11 @@ def delete_profile(frUserId, profile):
 
 
 # *-
-def delete_all_profiles(frUsedId):
-    conn = None
+def delete_all_profiles(frUsedId, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "DELETE FROM {} WHERE FR_USER_ID={}".format(
@@ -889,11 +891,11 @@ def delete_all_profiles(frUsedId):
 
 
 # *-
-def update_user_status(frUserId, newUserStatus):
-    conn = None
+def update_user_status(frUserId, newUserStatus, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -941,11 +943,11 @@ def update_onboarding_status(frUserId):
 
 
 # *-
-def set_model_retrain_flag(frModelId):
-    conn = None
+def set_model_retrain_flag(frModelId, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -976,11 +978,11 @@ def set_model_retrain_flag(frModelId):
 
 
 # *-
-def reset_model_retrain_flag(frModelId):
-    conn = None
+def reset_model_retrain_flag(frModelId, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1012,11 +1014,11 @@ def reset_model_retrain_flag(frModelId):
 
 
 # *-
-def insert_embeddings(embedding_rows):
-    conn = None
+def insert_embeddings(embedding_rows, conn=None):
     cur = None
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1055,12 +1057,12 @@ def insert_embeddings(embedding_rows):
 
 
 # *-
-def get_front_embeddings(frUserId):
-    conn = None
+def get_front_embeddings(frUserId, conn=None):
     cur = None
     embeddings = []
     try:
-        conn = create_connection()
+        if conn is None:
+            conn = create_connection()
 
         try:
             query = "SELECT EMBEDDING FROM {} WHERE FR_USER_ID={} AND ORIENTATION IN {} AND AUGMENTATION='None'".format(
@@ -1068,7 +1070,7 @@ def get_front_embeddings(frUserId):
                 frUserId,
                 cfg.FRONT_FACE_PROFILES)
             cur = conn.cursor()
-            cur.execute(query)
+            # print(query)
             for row in cur.execute(query):
                 embeddings.append(np.frombuffer(base64.b64decode(row[0].read()), np.float32))
 

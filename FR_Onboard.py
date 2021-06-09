@@ -7,6 +7,7 @@ import statistics
 import sys
 import time
 import cv2
+import cx_Oracle
 import numpy as np
 from PIL import Image
 from bob.ip.qualitymeasure import compute_msu_iqa_features
@@ -17,6 +18,7 @@ from redis import Redis
 from rq import Queue
 from sklearn.externals import joblib
 from DBUpdate import onboard_request
+from scheduler import retrain_model
 import dbutils
 import config as cfg
 import warnings
@@ -27,9 +29,8 @@ warnings.filterwarnings('ignore')
 app = Flask(__name__)
 
 
-def avg_euc(frModelId, userName, emb):
-    frUserId = dbutils.get_fruserid(frModelId=frModelId, userName=userName)
-    embs = dbutils.get_front_embeddings(frUserId)
+def avg_euc(frUserId, emb):
+    embs = dbutils.get_front_embeddings(frUserId=frUserId, conn=db_pool.acquire())
     dist = []
 
     for _e in embs:
@@ -279,7 +280,7 @@ def statuschange():
         'New StatusChange({}) request, requestId: {}, application: {}'.format(newUserStatus, json_['requestId'],
                                                                               application))
 
-    if dbutils.check_egroup(application, eGroup) == 0:
+    if dbutils.check_egroup(application=application, groupName=eGroup, conn=db_pool.acquire()) == 0:
         ResponseCode = '2001'
         ResponseMessage = 'User Group not found'
         app.logger.error('User Group not found')
@@ -288,7 +289,7 @@ def statuschange():
         Response_json['responseMessage'] = ResponseMessage
         return json.dumps(Response_json), {'Content-Type': 'application/json'}
 
-    if dbutils.check_user(application, eGroup, user) == 0:
+    if dbutils.check_user(application=application, groupName=eGroup, userName=user, conn=db_pool.acquire()) == 0:
         ResponseCode = '2002'
         ResponseMessage = 'User not found'
         app.logger.error('User not found')
@@ -299,13 +300,17 @@ def statuschange():
 
     updateResult = 0
     frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application=application, groupName=eGroup,
-                                                                           userName=user)
+                                                                           userName=user, conn=db_pool.acquire())
 
     if newUserStatus == 'DELETE':
-        updateResult = dbutils.delete_user(frModelId=frModelId, frUserId=frUserId)
+        updateResult = dbutils.delete_user(frModelId=frModelId, frUserId=frUserId, conn=db_pool.acquire())
+        modelRetrainDict = {'application': application, 'groupId': eGroup, 'frModelId': frModelId}
+
+        # Send model retrain request data to model-retrain Redis Queue
+        job = retraining_queue.enqueue(retrain_model, args=(modelRetrainDict,))
 
     elif newUserStatus == 'RESET':
-        updateResult = dbutils.delete_all_profiles(frUsedId=frUserId)
+        updateResult = dbutils.delete_all_profiles(frUsedId=frUserId, conn=db_pool.acquire())
 
     if updateResult == 1:
         ResponseCode = '0000'
@@ -400,12 +405,12 @@ def statusquery():
         groupId = user_dict['groupId']
         userId = user_dict['userId']
 
-        if dbutils.check_user(application, groupId, userId) == 1:
+        if dbutils.check_user(application=application, groupName=groupId, userName=userId, conn=db_pool.acquire()) == 1:
             # Generate response for user
             frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application=application,
-                                                                                   groupName=groupId, userName=userId)
+                                                                                   groupName=groupId, userName=userId, conn=db_pool.acquire())
 
-            userProfiles = dbutils.get_profiles(frUsedId=frUserId)
+            userProfiles = dbutils.get_profiles(frUsedId=frUserId, conn=db_pool.acquire())
 
             app.logger.info(userStatus)
             app.logger.info(userProfiles)
@@ -559,7 +564,7 @@ def onboard():
                                                                                         eGroup, user, profile))
 
     if requestType == "Update":
-        if dbutils.check_egroup(application, eGroup) == 0:
+        if dbutils.check_egroup(application=application, groupName=eGroup, conn=db_pool.acquire()) == 0:
             ResponseCode = '2001'
             ResponseMessage = 'User Group not found'
             app.logger.error('User Group not found')
@@ -568,7 +573,7 @@ def onboard():
                                                        responseMessage=ResponseMessage)
             return json.dumps(Response_json), {'Content-Type': 'application/json'}
 
-        if dbutils.check_user(application, eGroup, user) == 0:
+        if dbutils.check_user(application=application, groupName=eGroup, userName=user, conn=db_pool.acquire()) == 0:
             ResponseCode = '2002'
             ResponseMessage = 'User not found'
             app.logger.error('User not found')
@@ -579,9 +584,9 @@ def onboard():
 
     if requestType == "New":
 
-        if dbutils.check_user(application, eGroup, user) != 0:
+        if dbutils.check_user(application=application, groupName=eGroup, userName=user) != 0:
             frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application=application,
-                                                                                   groupName=eGroup, userName=user)
+                                                                                   groupName=eGroup, userName=user, conn=db_pool.acquire())
 
             if (
                     userStatus == 'Onboarding Complete' or userStatus == 'Profiles Complete') and profile in cfg.MANDOTORY_FACE_PROFILES:
@@ -656,7 +661,7 @@ def onboard():
         }
 
         # Send onboarding request data to DBUpdate Redis Queue
-        job = q.enqueue(onboard_request, args=(dbupdate_json,))
+        job = onboarding_queue.enqueue(onboard_request, args=(dbupdate_json,))
 
     else:
         ResponseCode = '1000'
@@ -769,7 +774,7 @@ def recognise():
         return json.dumps(response), {'Content-Type': 'application/json'}
 
     # User not found
-    if dbutils.check_user(application=application, groupName=eGroup, userName=user) == 0:
+    if dbutils.check_user(application=application, groupName=eGroup, userName=user, conn=db_pool.acquire()) == 0:
         response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup, userId=user,
                                                 imageCounter=imageCounter, start_time=start_time,
                                                 start_dtime=start_dtime, responseCode='1002',
@@ -778,7 +783,7 @@ def recognise():
         return json.dumps(response), {'Content-Type': 'application/json'}
 
     frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application=application, groupName=eGroup,
-                                                                           userName=user)
+                                                                           userName=user, conn=db_pool.acquire())
 
     rec_model_path = os.path.join(cfg.dirc['RECOGNITION_MODELS'], application, eGroup, str(frModelId))
 
@@ -893,7 +898,9 @@ def recognise():
 
         spoof_prob = max(photoSpoofProb, videoSpoofProb)
 
-        if recognised_name in cfg.DUMMY_USERNAMES:
+        frUserId = dbutils.get_fruserid(frModelId=frModelId, userName=recognised_name, conn=db_pool.acquire())
+
+        if recognised_name in cfg.DUMMY_USERNAMES or frUserId is None:
             response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
                                                     userId=user, imageCounter=imageCounter, start_time=start_time,
                                                     start_dtime=start_dtime, responseCode='0000',
@@ -904,7 +911,7 @@ def recognise():
             return json.dumps(response), {'Content-Type': 'application/json'}
 
         # get euclidean distance
-        eucd = avg_euc(frModelId, recognised_name, vec.flatten())
+        eucd = avg_euc(frUserId, vec.flatten())
 
         app.logger.info('EUCD with user {}: {}'.format(recognised_name, eucd))
 
@@ -971,7 +978,11 @@ if __name__ == "__main__":
     app.logger = get_logger(log_file)
     app.logger.setLevel(logging.DEBUG)
 
+    db_pool = cx_Oracle.SessionPool(cfg.DB_USER, cfg.DB_PWD, cfg.db_dsn_tns, min=2, max=5, increment=1, threaded=True,
+                                    getmode=cx_Oracle.SPOOL_ATTRVAL_WAIT)
+
     redis_conn = Redis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT)
-    q = Queue(cfg.REDIS_ONBOARD_QUEUE, connection=redis_conn)
+    onboarding_queue = Queue(cfg.REDIS_ONBOARD_QUEUE, connection=redis_conn)
+    retraining_queue = Queue(cfg.REDIS_RETRAIN_QUEUE, connection=redis_conn)
 
     app.run(host='0.0.0.0', port=port, debug=True, use_reloader=False)
