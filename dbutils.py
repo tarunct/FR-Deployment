@@ -165,7 +165,7 @@ def insert_egroup(application, eGroup, conn=None):
 
         try:
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            query = "INSERT INTO {} (FR_USERGROUP_ID, GROUP_NAME, APPLICATION, CREATED_BY, CREATED_DT, MODIFIED_BY, MODIFIED_DT) VALUES ({}.nextval, '{}', '{}', '{}', '{}', '{}', '{}'})".format(
+            query = "INSERT INTO {} (FR_USERGROUP_ID, GROUP_NAME, APPLICATION, CREATED_BY, CREATED_DT, MODIFIED_BY, MODIFIED_DT) VALUES ({}.nextval, '{}', '{}', '{}', '{}', '{}', '{}')".format(
                 TABLE_FRUG,
                 SEQ_FRUG,
                 eGroup,

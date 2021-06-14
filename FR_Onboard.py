@@ -844,11 +844,22 @@ def recognise():
     if np.any(norm_img):
 
         # --------  Spoof Detection Here  --------#
-        spoof_feat = [get_spoof_features(image)]
-        spoof_feat2 = get_spoof_features2(image)
+        try:
+            spoof_feat = [get_spoof_features(image)]
+            spoof_feat2 = get_spoof_features2(image)
 
-        photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat2)[0][1]
-        videoSpoofProb = videoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
+            photoSpoofProb = photoSpoofClf.predict_proba(spoof_feat2)[0][1]
+            videoSpoofProb = videoSpoofClf.predict_proba(spoof_feat)[:, 1][0]
+
+        except Exception as e:
+            response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
+                                                    userId=user,
+                                                    imageCounter=imageCounter, start_time=start_time,
+                                                    start_dtime=start_dtime, responseCode='2002',
+                                                    responseMessage='Spoof detection failed')
+
+            print(repr(e))
+            return json.dumps(response), {'Content-Type': 'application/json'}
 
         print('Spoof probabilities; photo: {}, video: {}'.format(photoSpoofProb, videoSpoofProb))
 
@@ -884,21 +895,32 @@ def recognise():
             return json.dumps(response), {'Content-Type': 'application/json'}
 
         # --------    Face Recognition Here   --------#
-        faceBlob = cv2.dnn.blobFromImage(norm_img, 1.0 / 255, (96, 96), (0, 0, 0), swapRB=True, crop=False)
-        face_embedder.setInput(faceBlob)
-        vec = face_embedder.forward()
+        try:
+            faceBlob = cv2.dnn.blobFromImage(norm_img, 1.0 / 255, (96, 96), (0, 0, 0), swapRB=True, crop=False)
+            face_embedder.setInput(faceBlob)
+            vec = face_embedder.forward()
 
-        # perform classification to recognize the face
-        predictions = recogniser.predict_proba(vec)[0]
-        j = np.argmax(predictions)
-        recognition_prob = predictions[j]
-        recognised_name = labelencoder.classes_[j]
+            # perform classification to recognize the face
+            predictions = recogniser.predict_proba(vec)[0]
+            j = np.argmax(predictions)
+            recognition_prob = predictions[j]
+            recognised_name = labelencoder.classes_[j]
 
-        app.logger.info('Request for: {}, Recognised with: {}'.format(user, recognised_name))
+            app.logger.info('Request for: {}, Recognised with: {}'.format(user, recognised_name))
 
-        spoof_prob = max(photoSpoofProb, videoSpoofProb)
+            spoof_prob = max(photoSpoofProb, videoSpoofProb)
 
-        frUserId = dbutils.get_fruserid(frModelId=frModelId, userName=recognised_name, conn=db_pool.acquire())
+            frUserId = dbutils.get_fruserid(frModelId=frModelId, userName=recognised_name, conn=db_pool.acquire())
+
+        except Exception as e:
+            response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
+                                                    userId=user,
+                                                    imageCounter=imageCounter, start_time=start_time,
+                                                    start_dtime=start_dtime, responseCode='2003',
+                                                    responseMessage='Face recognition failed')
+
+            print(repr(e))
+            return json.dumps(response), {'Content-Type': 'application/json'}
 
         if recognised_name in cfg.DUMMY_USERNAMES or frUserId is None:
             response = recognise_response_generator(tokenNo=tokenNo, application=application, groupId=eGroup,
