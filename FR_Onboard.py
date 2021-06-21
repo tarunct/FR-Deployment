@@ -14,7 +14,7 @@ from bob.ip.qualitymeasure import compute_msu_iqa_features
 from cerberus import Validator
 from flask import Flask, request
 from flask import json
-from redis import Redis
+from redis import Redis, StrictRedis
 from rq import Queue
 from sklearn.externals import joblib
 from DBUpdate import onboard_request
@@ -1003,7 +1003,7 @@ if __name__ == "__main__":
     db_pool = cx_Oracle.SessionPool(cfg.DB_USER, cfg.DB_PWD, cfg.db_dsn_tns, min=2, max=5, increment=1, threaded=True,
                                     getmode=cx_Oracle.SPOOL_ATTRVAL_WAIT)
 
-    redis_conn = Redis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT)
+    redis_conn = StrictRedis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT, password=cfg.REDIS_PWD)
     onboarding_queue = Queue(cfg.REDIS_ONBOARD_QUEUE, connection=redis_conn)
     retraining_queue = Queue(cfg.REDIS_RETRAIN_QUEUE, connection=redis_conn)
 

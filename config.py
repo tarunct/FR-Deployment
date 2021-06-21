@@ -67,6 +67,7 @@ DB_PWD = decrypt(params.get('db_pwd'))
 
 REDIS_HOST = params.get('redis_host')
 REDIS_PORT = params.get('redis_port')
+REDIS_PWD = decrypt(params.get('redis_pwd'))
 REDIS_ONBOARD_QUEUE = params.get('onboarding_queue')
 REDIS_RETRAIN_QUEUE = params.get('retraining_queue')
 

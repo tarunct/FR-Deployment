@@ -6,16 +6,17 @@ db_host_ip: 'gAAAAABgMsR7b8mp5aeMPB0JSuRb2tppsK8fB2Xe1yM5rexQrhI6--3IfJVoW_Soh56
 
 db_port: 'gAAAAABgMsSdWWwwuqHBX-OvIR5Auqh8TN8nYVqZYVmXSxn-Tzj0vCyEqo6ohcpoJnbEQSMJI-6XW7ele7nDYpxhtHFx-temeA=='
 
-# UAT new db
+# UAT db
 db_tag: 'gAAAAABgfUZOvjcznE614VQggRicaTWUdWVwASQfG1E3NMTJ8GlpUlSUZeyRAQ-ShWBRsupFhCxuQdJtVv5g2RRMXdh_yULN5g=='
 db_user: 'gAAAAABgfUYQumtvi9cP_zzLWWX9TeIVw1lxmCshSpQbiAu_V471Bj7G6Bn-8JRpuxxuKvRXArzOfrD9KGoi0X0hz6tZqzp7iQ=='
 db_pwd: 'gAAAAABgfUZ1Y5a8Ye4921UHP6LXwGJxidD1oA0obCchKYxueJ5ZKELZv_s37PCEsHOEDTNDCgToXdCGswf08L2s5If9QUVM_Q=='
 
-onboarding_queue: 'ml-facerecognition-onboard-request'
-retraining_queue: 'ml-facerecognition-retrain-model'
+onboarding_queue: 'com.uniteller.com.ml-facerecognition-onboard-request'
+retraining_queue: 'com.uniteller.com.ml-facerecognition-retrain-model'
 
 redis_host: 'redis-server'
 redis_port: 6379
+redis_pwd: 'gAAAAABg0GTjdpP40bmy57g4XNHIOFqEt5WEUiuE9DLYB_1emoJR6IKqoeOUHcU5WllUjDNuTE3ONjgi9TfKv-_dFj8ExYcbKA=='
 
 model_users_threshold: 10
 flag_store_recognition_images: 1

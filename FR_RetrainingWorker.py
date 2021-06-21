@@ -1,8 +1,8 @@
-from redis import Redis
+from redis import Redis, StrictRedis
 from rq import Queue, Worker
 import config as cfg
 
-redis_conn = Redis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT)
+redis_conn = StrictRedis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT, password=cfg.REDIS_PWD)
 q = Queue(cfg.REDIS_RETRAIN_QUEUE, connection=redis_conn)
 
 

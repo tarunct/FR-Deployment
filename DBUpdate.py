@@ -8,7 +8,7 @@ import numpy as np
 import skimage.transform
 import skimage.transform
 import tensorflow as tf
-from redis import Redis
+from redis import Redis, StrictRedis
 from rq import Queue
 from rq.decorators import job
 import config as cfg
@@ -342,7 +342,7 @@ def onboard_request(json_):
 
         modelRetrainDict = {'application': application, 'groupId': eGroup, 'frModelId': frModelId}
 
-        redis_conn = Redis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT)
+        redis_conn = StrictRedis(host=cfg.REDIS_HOST, port=cfg.REDIS_PORT, password=cfg.REDIS_PWD)
         q = Queue(cfg.REDIS_RETRAIN_QUEUE, connection=redis_conn)
 
         # Send model retrain request data to model-retrain Redis Queue

@@ -1,5 +1,7 @@
 import base64
 import datetime
+import os
+import shutil
 import traceback
 import numpy as np
 import config as cfg
@@ -498,16 +500,70 @@ def update_modelusercount(frModelId, conn=None):
             for row in cur.execute(query):
                 userCount = row[0]
 
-            ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print('Usercount: {}'.format(userCount))
 
-            query = "UPDATE {} SET USER_COUNT={}, MODIFIED_BY='{}', MODIFIED_DT='{}' WHERE FR_MODEL_ID={}".format(
+            if userCount == 0:
+                cleanup_frmodel(frModelId)
+
+            else:
+                ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+                query = "UPDATE {} SET USER_COUNT={}, MODIFIED_BY='{}', MODIFIED_DT='{}' WHERE FR_MODEL_ID={}".format(
+                    TABLE_FRM,
+                    userCount,
+                    DB_USERTAG,
+                    ts,
+                    frModelId)
+                cur.execute(query)
+                conn.commit()
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
+
+    finally:
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
+
+
+def cleanup_frmodel(frModelId, conn=None):
+    cur = None
+    modelNo = None
+    application = None
+    groupName = None
+    try:
+        if conn is None:
+            conn = create_connection()
+
+        try:
+            query = "SELECT frug.APPLICATION, frug.GROUP_NAME, frm.MODEL_NO FROM {} frug, {} frm WHERE frug.FR_USERGROUP_ID=frm.FR_USERGROUP_ID and FR_MODEL_ID={}".format(
+                TABLE_FRUG,
                 TABLE_FRM,
-                userCount,
-                DB_USERTAG,
-                ts,
                 frModelId)
-            cur.execute(query)
-            conn.commit()
+            cur = conn.cursor()
+
+            for row in cur.execute(query):
+                application = row[0]
+                groupName = row[1]
+                modelNo = row[2]
+
+            print('modelNo: {}'.format(modelNo))
+
+            if modelNo > 1:
+                query = "DELETE FROM {} WHERE FR_MODEL_ID={}".format(
+                    TABLE_FRM,
+                    frModelId)
+                cur.execute(query)
+                conn.commit()
+
+                model_path = os.path.join(cfg.dirc['RECOGNITION_MODELS'], application, groupName, str(frModelId))
+                shutil.rmtree(model_path)
 
         except Exception as e:
             print('Exception in dbutils: {}'.format(repr(e)))
@@ -538,6 +594,7 @@ def delete_user(frModelId, frUserId, conn=None):
                 TABLE_FRE,
                 frUserId)
             cur.execute(query)
+            conn.commit()
 
             query = "DELETE FROM {} WHERE FR_USER_ID={}".format(
                 TABLE_FRU,
