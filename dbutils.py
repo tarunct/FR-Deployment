@@ -403,6 +403,79 @@ def get_frmodelid(frGroupId, frModelNo, conn=None):
 
 
 # *-
+def get_application_frmodelids(application, conn=None):
+    cur = None
+    frModelIds = []
+    try:
+        if conn is None:
+            conn = create_connection()
+
+        try:
+            query = "SELECT DISTINCT frm.FR_MODEL_ID FROM {} frug, {} frm WHERE frug.FR_USERGROUP_ID=frm.FR_USERGROUP_ID AND frug.APPLICATION='{}'".format(
+                TABLE_FRUG,
+                TABLE_FRM,
+                application)
+
+            cur = conn.cursor()
+
+            for row in cur.execute(query):
+                frModelIds.append(row[0])
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
+
+    finally:
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
+
+    return frModelIds
+
+
+# *-
+def get_usergroup_frmodelids(application, groupName, conn=None):
+    cur = None
+    frModelIds = []
+    try:
+        if conn is None:
+            conn = create_connection()
+
+        try:
+            query = "SELECT DISTINCT frm.FR_MODEL_ID FROM {} frug, {} frm WHERE frug.FR_USERGROUP_ID=frm.FR_USERGROUP_ID AND frug.APPLICATION='{}' AND frug.GROUP_NAME='{}'".format(
+                TABLE_FRUG,
+                TABLE_FRM,
+                application,
+                groupName)
+
+            cur = conn.cursor()
+
+            for row in cur.execute(query):
+                frModelIds.append(row[0])
+
+        except Exception as e:
+            print('Exception in dbutils: {}'.format(repr(e)))
+            print(traceback.print_exc())
+
+    except Exception as e:
+        print('Exception in dbutils: {}'.format(repr(e)))
+        print(traceback.print_exc())
+
+    finally:
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
+
+    return frModelIds
+
+
+# *-
 def get_fruserid(frModelId, userName, conn=None):
     cur = None
     frGroupId = None

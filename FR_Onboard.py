@@ -1,4 +1,5 @@
 import base64
+import datetime
 import io
 import logging
 import os
@@ -197,10 +198,175 @@ def get_spoof_features2(img):
 # Store login request image for logs
 def store_recognition_image(img, token, application, groupid, userid, imgCounter):
     app.logger.info('image shape: {}'.format(img.shape))
-    ts = time.time()
+    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_name = '{}_{}_{}_{}_{}_{}.png'.format(ts, token, application, groupid, userid, imgCounter)
     file_path = os.path.join(cfg.dirc['LOGS'], 'login-images', file_name)
     cv2.imwrite(file_path, img)
+
+
+@app.route('/modelretrain', methods=['POST'])
+def modelretrain():
+    json_ = request.get_json(force=True)
+
+    schema = {
+        'requestId': {
+            'type': 'string',
+            'empty': False,
+            'nullable': False
+        },
+        'retrainLevel': {
+            'type': 'string',
+            'empty': False,
+            'nullable': False,
+            'allowed': ['APPLICATION', 'GROUP', 'USER']
+        },
+        'applicationName': {
+            'type': 'string',
+            'empty': False,
+            'nullable': False
+        },
+        'groupId': {
+            'type': 'string',
+            'empty': False,
+            'nullable': True
+        },
+        'userId': {
+            'type': 'string',
+            'empty': False,
+            'nullable': True
+        },
+    }
+
+    validator = Validator(schema)
+    validator.allow_unknown = True
+
+    Response_json = {}
+    ResponseCode = ''
+    ResponseMessage = ''
+
+    # Request validation
+    if not (validator.validate(json_)):
+        errors_list = validator.errors
+
+        for key in errors_list.keys():
+            if 'empty values' in errors_list[key][0]:
+                ResponseCode = '5001'
+                ResponseMessage = 'Missing mandatory field'
+                app.logger.error('Missing mandatory field')
+
+            if 'type' in errors_list[key][0]:
+                ResponseCode = '5002'
+                ResponseMessage = 'Invalid input field type'
+                app.logger.error('Invalid input field type')
+
+            if 'unallowed' in errors_list[key][0]:
+                ResponseCode = '5003'
+                ResponseMessage = 'Invalid input field value'
+                app.logger.error('Invalid input field value')
+
+            Response_json['responseId'] = 'R_{}'.format(json_['requestId'])
+            Response_json['responseCode'] = ResponseCode
+            Response_json['responseMessage'] = ResponseMessage
+
+            return json.dumps(Response_json), {'Content-Type': 'application/json'}
+
+    app.logger.info(
+        'New Model retrain request, requestId: {}'.format(json_['requestId']))
+
+    Response_json['responseId'] = 'R_{}'.format(json_['requestId'])
+
+    retrainLevel = json_['retrainLevel']
+    application = json_['applicationName']
+    eGroup = json_['groupId']
+    user = json_['userId']
+
+    try:
+        if retrainLevel == 'APPLICATION':
+            frModelIds = dbutils.get_application_frmodelids(application=application, conn=db_pool.acquire())
+
+            for frModelId in frModelIds:
+                modelRetrainDict = {'application': application, 'groupId': eGroup, 'frModelId': frModelId}
+
+                # Send model retrain request data to model-retrain Redis Queue
+                job = retraining_queue.enqueue(retrain_model, args=(modelRetrainDict,))
+                app.logger.info(
+                    'Queued model retrain request for Application: {}, ModelId: {}'.format(application, frModelId))
+
+        elif retrainLevel == 'GROUP':
+            if dbutils.check_egroup(application=application, groupName=eGroup, conn=db_pool.acquire()) == 0:
+                ResponseCode = '2001'
+                ResponseMessage = 'User Group not found'
+                app.logger.error('User Group not found')
+
+                Response_json['responseCode'] = ResponseCode
+                Response_json['responseMessage'] = ResponseMessage
+                return json.dumps(Response_json), {'Content-Type': 'application/json'}
+
+            frModelIds = dbutils.get_usergroup_frmodelids(application=application, groupName=eGroup, conn=db_pool.acquire())
+
+            for frModelId in frModelIds:
+                modelRetrainDict = {'application': application, 'groupId': eGroup, 'frModelId': frModelId}
+
+                # Send model retrain request data to model-retrain Redis Queue
+                job = retraining_queue.enqueue(retrain_model, args=(modelRetrainDict,))
+                app.logger.info(
+                    'Queued model retrain request for Application: {}, Group: {}, ModelId: {}'.format(application,
+                                                                                                      eGroup,
+                                                                                                      frModelId))
+
+        elif retrainLevel == 'USER':
+            if dbutils.check_egroup(application=application, groupName=eGroup, conn=db_pool.acquire()) == 0:
+                ResponseCode = '2001'
+                ResponseMessage = 'User Group not found'
+                app.logger.error('User Group not found')
+
+                Response_json['responseCode'] = ResponseCode
+                Response_json['responseMessage'] = ResponseMessage
+                return json.dumps(Response_json), {'Content-Type': 'application/json'}
+
+            if dbutils.check_user(application=application, groupName=eGroup, userName=user,
+                                  conn=db_pool.acquire()) == 0:
+                ResponseCode = '2002'
+                ResponseMessage = 'User not found'
+                app.logger.error('User not found')
+
+                Response_json['responseCode'] = ResponseCode
+                Response_json['responseMessage'] = ResponseMessage
+                return json.dumps(Response_json), {'Content-Type': 'application/json'}
+
+            frGroupId, frModelId, frUserId, userStatus = dbutils.get_fruserdetails(application=application,
+                                                                                   groupName=eGroup,
+                                                                                   userName=user,
+                                                                                   conn=db_pool.acquire())
+
+            modelRetrainDict = {'application': application, 'groupId': eGroup, 'frModelId': frModelId}
+
+            # Send model retrain request data to model-retrain Redis Queue
+            job = retraining_queue.enqueue(retrain_model, args=(modelRetrainDict,))
+            app.logger.info(
+                'Queued model retrain request for Application: {}, Group: {}, User: {}, ModelId: {}'.format(application,
+                                                                                                            eGroup,
+                                                                                                            user,
+                                                                                                            frModelId))
+
+        ResponseCode = '0000'
+        ResponseMessage = 'Success'
+        app.logger.error('Success! Retrain request queued')
+
+        Response_json['responseCode'] = ResponseCode
+        Response_json['responseMessage'] = ResponseMessage
+
+        return json.dumps(Response_json), {'Content-Type': 'application/json'}
+
+    except Exception as e:
+        ResponseCode = '1000'
+        ResponseMessage = 'Failure'
+        app.logger.error('Error! Couldn\'t queue retrain request(s)\nError details: {}'.format(repr(e)))
+
+        Response_json['responseCode'] = ResponseCode
+        Response_json['responseMessage'] = ResponseMessage
+
+        return json.dumps(Response_json), {'Content-Type': 'application/json'}
 
 
 @app.route('/statuschange', methods=['POST'])
